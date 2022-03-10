@@ -2,19 +2,21 @@
 # noinspection PyUnusedLocal
 # skus = unicode string
 
+available_products = ['A', 'B', 'C', 'D']
+
+prices = {'A': 50,
+          'B': 30,
+          'C': 20,
+          'D': 15}
+
+
+special_offers = {
+    'A': (3, 130),
+    'B': (2, 45),
+}
+
 
 def checkout(skus: str) -> int:
-    available_products = ['A', 'B', 'C', 'D']
-
-    prices = {'A': 50,
-              'B': 30,
-              'C': 20,
-              'D': 15}
-
-    special_offers = {
-        'A': (3, 130),
-        'B': (2, 45),
-    }
     """Supermarket checkout function. it accepts a string of products as input and returns the total amount taking into
     account discounted items"""
     if not isinstance(skus, str):
@@ -37,3 +39,4 @@ def checkout(skus: str) -> int:
         pricing.append(price)
 
     return sum(pricing)
+
