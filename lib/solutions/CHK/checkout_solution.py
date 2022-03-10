@@ -1,14 +1,6 @@
 
 # noinspection PyUnusedLocal
 # skus = unicode string
-"""
-In order to complete the round you need to implement the following method:
-     checkout(String) -> Integer
-
-Where:
- - param[0] = a String containing the SKUs of all the products in the basket
- - @return = an Integer representing the total checkout value of the items
-"""
 
 available_products = ['A', 'B', 'C', 'D']
 
@@ -47,4 +39,5 @@ def checkout(skus: str) -> int:
         pricing.append(price)
 
     return sum(pricing)
+
 
