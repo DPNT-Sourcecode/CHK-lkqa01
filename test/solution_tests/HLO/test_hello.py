@@ -6,4 +6,4 @@ def test_input_parameter_type():
         hello(6)
 
 def test_outcome():
-    hello('Jack')
+    assert hello('Jack') == 'Hello, Jack!'
