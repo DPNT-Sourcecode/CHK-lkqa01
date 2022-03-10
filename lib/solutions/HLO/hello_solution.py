@@ -13,8 +13,13 @@ Where:
 
 """
 
+
 def hello(friend_name: float = None) -> str:
-    return 'Hello, World!'
+    """Function to greet the user, takes a string and return Hello, 'string'"""
+    if not isinstance(friend_name, str):
+        raise TypeError("this function expects a string as input")
+    return f'Hello, {friend_name}!'
+
 
 if __name__ == '__main__':
-    print(hello())
+    print(hello(friend_name))
