@@ -8,5 +8,7 @@ Where:
 """
 
 def compute(x: int, y:int)-> int:
+    if not isinstance(x, int) or not isinstance(y, int):
+        raise TypeError('The input should be an integer')
     return x+y
 
