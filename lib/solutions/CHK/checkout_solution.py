@@ -42,5 +42,5 @@ def checkout(skus: str) -> int:
     return sum(pricing)
 
 
-sum = checkout('A')
-print(sum)
+# sum2 = checkout('A')
+# print(sum)
