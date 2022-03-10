@@ -14,7 +14,7 @@ Where:
 """
 
 def hello(friend_name: float = None) -> str:
-    return 'Hello World'
+    return 'Hello World!'
 
 if __name__ == '__main__':
     print(hello())
