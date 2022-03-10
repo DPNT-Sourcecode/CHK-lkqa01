@@ -18,6 +18,11 @@ prices = {'A': 50,
           'D': 15}
 
 
+special_offers = {
+    'A': (3, 1300),
+    'B': (2, 45),
+}
+
 
 def checkout(skus: str) -> int:
     """Supermarket checkout function. it accepts a string of products as input and returns the total amount taking into
@@ -26,9 +31,12 @@ def checkout(skus: str) -> int:
         if product not in available_products:
             return -1
 
-    items = {product:skus.count(product) for product in skus}
-    print(items)
+    items = {product: skus.count(product) for product in skus}
+
+    pricing = [items[product] * prices[product] for product in items if product not in special_offers]
+
+    print(pricing)
 
 
 
-print(checkout('AAABBCD'))
+checkout('AAABBCCDDD')
