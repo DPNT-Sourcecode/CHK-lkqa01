@@ -2,7 +2,7 @@ import pytest
 from lib.solutions.CHK.checkout_solution import checkout
 
 def test_correct_checkout_no_discount():
-    assert checkout('AABCD') == 165
+    assert checkout('A') == 165
 
 def test_correct_checkout_with_discount():
     assert checkout('AAABBBCD') == 240
