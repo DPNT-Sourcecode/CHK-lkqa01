@@ -29,7 +29,7 @@ def checkout(skus: str) -> int:
 
     pricing = [items[product] * prices[product] for product in items if product not in special_offers]
 
-    for product, value in special_offers.items():
+    for product, value in special_offers.copy().items():
         price = 0
 
         if items[product] // value[0] >= 1:
@@ -39,4 +39,8 @@ def checkout(skus: str) -> int:
         pricing.append(price)
 
     return sum(pricing)
+
+
+sum = checkout('AABCD')
+print(sum)
 
