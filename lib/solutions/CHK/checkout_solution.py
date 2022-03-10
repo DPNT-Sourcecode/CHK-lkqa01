@@ -35,8 +35,17 @@ def checkout(skus: str) -> int:
 
     pricing = [items[product] * prices[product] for product in items if product not in special_offers]
 
+    for product, value in special_offers.items():
+        price = 0
+
+        if items[product] // value[0] >= 1:
+            price += (items[product] // value[0]) * value[1]
+
+        price += (items[product] % value[0]) * prices[product]
+        pricing.append(price)
+
     print(pricing)
 
 
 
-checkout('AAABBCCDDD')
+checkout('AABBCCDDD')
