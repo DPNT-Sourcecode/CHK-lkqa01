@@ -18,3 +18,7 @@ def test_input_is_larger_than_100():
     with pytest.raises(NumberOutofRange):
         compute(101, 4)
 
+def test_input_is_larger_than_100_2():
+    with pytest.raises(NumberOutofRange):
+        compute(10, -1)
+
