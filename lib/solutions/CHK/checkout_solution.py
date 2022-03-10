@@ -16,7 +16,7 @@ special_offers = {
 }
 
 
-def checkout(skus: str) -> int:
+def checkout(skus) -> int:
     """Supermarket checkout function. it accepts a string of products as input and returns the total amount taking into
     account discounted items"""
     if not isinstance(skus, str):
