@@ -16,7 +16,7 @@ special_offers = {
 }
 
 
-def checkout(skus) -> int:
+def checkout(skus: str) -> int:
     """Supermarket checkout function. it accepts a string of products as input and returns the total amount taking into
     account discounted items"""
     if not isinstance(skus, str):
@@ -27,7 +27,7 @@ def checkout(skus) -> int:
 
     items = {product: skus.count(product) for product in skus}
 
-    pricing = [items[product] * prices[product] for product in items.keys() if product not in special_offers.keys()]
+    pricing = [items[product] * prices[product] for product in list(items.keys()) if product not in list(special_offers.keys())]
 
     for product, value in list(special_offers.items()):
         price = 0
@@ -43,3 +43,4 @@ def checkout(skus) -> int:
 
 # sum = checkout('AAABBCD')
 # print(sum)
+
