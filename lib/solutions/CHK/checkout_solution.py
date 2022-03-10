@@ -27,7 +27,7 @@ def checkout(skus: str) -> int:
 
     items = {product: skus.count(product) for product in skus}
 
-    pricing = [items[product] * prices[product] for product in items if product not in special_offers]
+    pricing = [items[product] * prices[product] for product in items.keys() if product not in special_offers.keys()]
 
     for product, value in list(special_offers.items()):
         price = 0
