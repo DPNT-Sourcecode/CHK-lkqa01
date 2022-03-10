@@ -19,7 +19,7 @@ prices = {'A': 50,
 
 
 special_offers = {
-    'A': (3, 1300),
+    'A': (3, 130),
     'B': (2, 45),
 }
 
@@ -44,8 +44,8 @@ def checkout(skus: str) -> int:
         price += (items[product] % value[0]) * prices[product]
         pricing.append(price)
 
-    print(pricing)
+    return sum(pricing)
 
 
-
-checkout('AABBCCDDD')
+test = checkout('AAABBCD')
+print(test)
