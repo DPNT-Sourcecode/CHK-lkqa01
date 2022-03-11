@@ -22,8 +22,26 @@ class Item:
     def __repr__(self):
         return f'{self.quantity}{self.item}'
 
-    def pricing(self):
-        pass
+    def multi_pricing(self) -> int:
+        price = []
+        count = self.quantity
+        offers = self.item.multi
+
+        for offer in sorted(offers, reverse=True): #Sorted to make sure we apply the highest offer first.
+            multiples = count // offer[0]
+            if multiples >= 1:
+                price.append(multiples * offer[1])
+                count -= multiples * offer[0]
+
+    def pricing(self) -> int:
+        price = 0
+        if self.item.multi:
+            pass
+        else:
+            price += self.item.price * self.quantity
+
+        if self.item.BxGx:
+            pass
 
 
 products = {
