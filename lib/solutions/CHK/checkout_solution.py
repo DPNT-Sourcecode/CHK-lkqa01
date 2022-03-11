@@ -16,7 +16,7 @@ class Product:
 
 class Item:
     def __init__(self, item: str, quantity: int):
-        self.item = product[item]
+        self.item = products[item]
         self.quantity = quantity
 
     def __repr__(self):
