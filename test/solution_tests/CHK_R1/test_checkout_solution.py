@@ -10,9 +10,10 @@ def test_correct_checkout_with_discount():
 
 
 def test_wrong_items():
-    assert checkout('AAAEBBBCD') == -1
+    assert checkout('AAArBBBCD') == -1
 
 
 def test_wrong_input():
     with pytest.raises(TypeError):
         checkout(10)
+

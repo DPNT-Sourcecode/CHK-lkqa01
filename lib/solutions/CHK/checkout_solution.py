@@ -72,7 +72,7 @@ class Item:
 
 
 products = {
-    'A': Product('A', 50, multi=[(5, 200), (2, 120)]),
+    'A': Product('A', 50, multi=[(5, 200), (3, 130)]),
     'B': Product('B', 30, multi=[(2, 45)]),
     'C': Product('C', 20),
     'D': Product('D', 15),
@@ -87,7 +87,7 @@ def checkout(skus: str) -> int:
         raise "Items should be a string"
 
     for product in skus:
-        if product not in product:
+        if product not in products:
             return -1
 
     basket = [Item(i, skus.count(i)) for i in products]
@@ -97,5 +97,5 @@ def checkout(skus: str) -> int:
     return pricing
 
 
-total = checkout('AAA')
+total = checkout('BEEB')
 print(total)
