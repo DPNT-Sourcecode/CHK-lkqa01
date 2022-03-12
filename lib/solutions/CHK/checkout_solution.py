@@ -62,7 +62,7 @@ class Item:
     def group_discount(self, groups: list):
         if self.item.group:
             for i in range(self.quantity):
-                groups.append(self.item.name)
+                groups.append(self.item)
             self.quantity = 0
 
     def pricing(self) -> int:
@@ -120,34 +120,21 @@ def checkout(skus: str) -> int:
         item.buy_x_get_x(basket)
 
     groups = []
-    single_group = []
-    group_pricing = 0
-
     for item in basket:
         item.group_discount(groups)
 
-    groups = sorted([products[i] for i in groups], key=lambda x: x.price, reverse=True)
+    groups = sorted(groups, key=lambda x: x.price, reverse=True)
 
-    groups = [i.name for i in groups]
-
-    while groups:
-        for i in groups:
-            if len(single_group) < 3:
-                single_group.append(i)
-                groups.remove(i)
-
-            if len(single_group) == 3:
-                group_pricing += 45
-                single_group = []
+    group_pricing = (len(groups) // 3) * 45
+    single_group = groups[(len(groups) // 3) * 3:]
 
     for i in single_group:
-        group_pricing += products[i].price
+        group_pricing += i.price
 
-    print(group_pricing)
     prices = [i.pricing() for i in basket]
     total = sum(prices) + group_pricing
 
     return total
 
-# total = checkout('ZZZXSTZSTXSTXYYYZZZZZZZSSSSSSDGSJAKDGHSAKJDHASJKDHSAJKDHKASJDHAKZZAZAIOJZIOJIOJZIOAOIJZA')
-# print(total)
+total = checkout('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ')
+print(total)
