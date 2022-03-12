@@ -128,5 +128,3 @@ def checkout(skus: str) -> int:
 total = checkout('FFF')
 
 print(total)
-
-
