@@ -54,7 +54,6 @@ class Item:
 
             if self.quantity >= qualifying_num and free_item.quantity > 0:
                 factor = self.quantity // qualifying_num
-                if free_item.quantity ==
                 price = factor * free_item_num * free_item.item.price
 
         return price
