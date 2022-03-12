@@ -38,53 +38,53 @@ class Item:
 
         return sum(price)
 
-    def buy_x_get_x(self, basket: list) -> int:
-        price = 0
-        offers = self.item.BxGx
-
-        for offer in offers:
-            offer = list(offer)
-            qualifying_num = int(offer[0])
-            priced_item = offer[1]
-            free_item_num = int(offer[2])
-            free_item = products[offer[3]]
-
-            if priced_item == offer[3]:
-                qualifying_num += free_item_num
-
-            target = [x for x in basket if x.item.name == free_item.name and x.quantity > 0]
-
-            if target:
-                free_item = target[0]
-
-                if self.quantity >= qualifying_num and free_item.quantity > 0 and priced_item == free_item.item.name:
-
-                    if self.quantity == qualifying_num:
-                        factor = 1
-                        price = factor * free_item.item.price
-                    else:
-                        factor = (self.quantity // qualifying_num)
-                        price = factor * free_item.item.price
-
-                elif self.quantity >= qualifying_num and free_item.quantity > 0:
-                    items_to_remove = self.quantity // qualifying_num
-
-                    if free_item.item.multi:
-                        for offer in free_item.item.multi:
-                            items_on_offer = items_to_remove // offer[0]
-                            items_full_price = items_to_remove % offer[0]
-
-                            price += items_on_offer * offer[1]
-                            price += items_full_price * free_item.item.price
-
-                            if items_full_price:
-                                if (free_item.quantity // items_full_price) % offer[0] == 0:
-                                    price -= items_full_price * offer[1]
-                                    price += items_full_price * free_item.item.price
-                    else:
-                        price += items_to_remove * free_item.item.price
-
-            return price
+    # def buy_x_get_x(self, basket: list) -> int:
+    #     price = 0
+    #     offers = self.item.BxGx
+    #
+    #     for offer in offers:
+    #         offer = list(offer)
+    #         qualifying_num = int(offer[0])
+    #         priced_item = offer[1]
+    #         free_item_num = int(offer[2])
+    #         free_item = products[offer[3]]
+    #
+    #         if priced_item == offer[3]:
+    #             qualifying_num += free_item_num
+    #
+    #         target = [x for x in basket if x.item.name == free_item.name and x.quantity > 0]
+    #
+    #         if target:
+    #             free_item = target[0]
+    #
+    #             if self.quantity >= qualifying_num and free_item.quantity > 0 and priced_item == free_item.item.name:
+    #
+    #                 if self.quantity == qualifying_num:
+    #                     factor = 1
+    #                     price = factor * free_item.item.price
+    #                 else:
+    #                     factor = (self.quantity // qualifying_num)
+    #                     price = factor * free_item.item.price
+    #
+    #             elif self.quantity >= qualifying_num and free_item.quantity > 0:
+    #                 items_to_remove = self.quantity // qualifying_num
+    #
+    #                 if free_item.item.multi:
+    #                     for offer in free_item.item.multi:
+    #                         items_on_offer = items_to_remove // offer[0]
+    #                         items_full_price = items_to_remove % offer[0]
+    #
+    #                         price += items_on_offer * offer[1]
+    #                         price += items_full_price * free_item.item.price
+    #
+    #                         if items_full_price:
+    #                             if (free_item.quantity // items_full_price) % offer[0] == 0:
+    #                                 price -= items_full_price * offer[1]
+    #                                 price += items_full_price * free_item.item.price
+    #                 else:
+    #                     price += items_to_remove * free_item.item.price
+    #
+    #         return price
 
 
     def pricing(self, basket: list) -> int:
@@ -94,8 +94,8 @@ class Item:
         else:
             price += self.item.price * self.quantity
 
-        if self.item.BxGx:
-            price -= self.buy_x_get_x(basket)
+        # if self.item.BxGx:
+        #     price -= self.buy_x_get_x(basket)
 
         return price
 
@@ -142,11 +142,31 @@ def checkout(skus: str) -> int:
 
     basket = [Item(i, skus.count(i)) for i in products]
 
+    for x in basket:
+        if x.item.BxGx:
+            for offer in x.item.BxGx:
+                offer = list(offer)
+                qualifying_num = int(offer[0])
+                priced_item = offer[1]
+                free_item_num = int(offer[2])
+                free_item = products[offer[3]]
+
+                for y in basket:
+                    if y.item.name == free_item.name and y.quantity > 0:
+                        if y.item.name == x.item.name:
+                            qualifying_num += free_item_num
+
+                        if x.quantity >= qualifying_num:
+                            factor = x.quantity // qualifying_num
+                            y.quantity -= factor
+                            if y.quantity < 0:
+                                y.quantity = 0
+
     prices = sum([i.pricing(basket) for i in basket])
 
     return prices
 
 
-total = checkout('AAAAAPPPPPUUUUEEBRRRQAAAHHHHHHHHHHVVVBBNNNMFFFKKQQQVVHHHHH')
+total = checkout('PPPPQRUVPQRUVPQRUVSU')
 
 print(total)
