@@ -81,6 +81,8 @@ class Item:
                                 if (free_item.quantity // items_full_price) % offer[0] == 0:
                                     price -= items_full_price * offer[1]
                                     price += items_full_price * free_item.item.price
+                    else:
+                        price += items_to_remove * free_item.item.price
 
             return price
 
@@ -143,7 +145,7 @@ def checkout(skus: str) -> int:
 
     return prices
 
-#
-# total = checkout('FFF')
-#
-# print(total)
+
+total = checkout('NNNM')
+
+print(total)
