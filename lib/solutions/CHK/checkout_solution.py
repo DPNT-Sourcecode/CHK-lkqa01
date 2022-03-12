@@ -107,6 +107,7 @@ products = {
     'D': Product('D', 15),
     'E': Product('E', 40, BxGx=['2E1B']),
     'F': Product('F', 10, BxGx=['2F1F']),
+    'G': Product('G', 20),
     'H': Product('H', 10, multi=[(5, 45), (10, 80)]),
     'I': Product('I', 35),
     'J': Product('J', 60),
