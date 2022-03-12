@@ -104,7 +104,18 @@ products = {
     'C': Product('C', 20),
     'D': Product('D', 15),
     'E': Product('E', 40, BxGx=['2E1B']),
-    'F': Product('F', 10, BxGx=['2F1F'])
+    'F': Product('F', 10, BxGx=['2F1F']),
+    'H': Product('H', 10, multi=[(5, 45), (10, 80)]),
+    'I': Product('I', 35),
+    'J': Product('J', 60),
+    'K': Product('K', 80, multi=[(2, 150)]),
+    'L': Product('L', 90),
+    'M': Product('M', 15),
+    'N': Product('N', 40, BxGx=['3N1M']),
+    'O': Product('O', 10),
+    'P': Product('P', 50, multi=[(5, 200)]),
+    'Q': Product('Q', 30, multi=[(3, 80)]),
+    # 'R': Product
 }
 
 
@@ -124,7 +135,7 @@ def checkout(skus: str) -> int:
 
     return prices
 
-
-total = checkout('FFF')
-
-print(total)
+#
+# total = checkout('FFF')
+#
+# print(total)
