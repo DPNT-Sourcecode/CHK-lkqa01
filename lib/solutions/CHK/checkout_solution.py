@@ -2,7 +2,6 @@
 # noinspection PyUnusedLocal
 # skus = unicode string
 
-
 class Product:
     def __init__(self, name: str, price: int, multi: list = [], BxGx: list = [], group: list = []):
         self.name = name
@@ -121,18 +120,34 @@ def checkout(skus: str) -> int:
         item.buy_x_get_x(basket)
 
     groups = []
+    single_group = []
     group_pricing = 0
 
     for item in basket:
         item.group_discount(groups)
 
-    print(groups)
+    groups = sorted(groups, key=lambda x: x.price, reverse=True)
+    groups = [i.name for i in groups]
 
-    prices = sum([i.pricing() for i in basket])
+    while groups:
+        for i in groups:
+            if i not in single_group and len(single_group) < products[i].group[0][0]:
+                single_group.append(i)
+                groups.remove(i)
 
-    return prices
+            if len(single_group) == 3:
+                group_pricing += products[i].group[0][1]
+                single_group = []
+
+    for i in single_group:
+        group_pricing += products[i].price
+
+    prices = [i.pricing() for i in basket]
+    total = sum(prices) + group_pricing
+
+    return total
 
 
-total = checkout('RRRQQQXYZ')
+total = checkout('AABCD')
 
 print(total)
