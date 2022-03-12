@@ -106,7 +106,4 @@ def checkout(skus: str) -> int:
     pricing = sum([i.pricing(basket) for i in basket])
 
     return pricing
-#
-#
-# total = checkout('ABCDEABCDE')
-# print(total)
+# Z
