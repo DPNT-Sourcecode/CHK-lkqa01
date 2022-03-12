@@ -29,5 +29,3 @@ def test_wrong_items():
 def test_wrong_input():
     with pytest.raises(TypeError):
         checkout(10)
-
-

@@ -147,7 +147,7 @@ def checkout(skus: str) -> int:
 
     return total
 
-
-total = checkout('AABCD')
-
-print(total)
+#
+# total = checkout('AABCD')
+#
+# print(total)
