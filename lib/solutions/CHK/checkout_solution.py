@@ -4,11 +4,12 @@
 
 
 class Product:
-    def __init__(self, name: str, price: int, multi: list = [], BxGx: list = []):
+    def __init__(self, name: str, price: int, multi: list = [], BxGx: list = [], group: list = []):
         self.name = name
         self.price = price
         self.multi = multi
         self.BxGx = BxGx
+        self.group = group
 
     def __repr__(self):
         return f'{self.name}'
@@ -38,64 +39,38 @@ class Item:
 
         return sum(price)
 
-    # def buy_x_get_x(self, basket: list) -> int:
-    #     price = 0
-    #     offers = self.item.BxGx
-    #
-    #     for offer in offers:
-    #         offer = list(offer)
-    #         qualifying_num = int(offer[0])
-    #         priced_item = offer[1]
-    #         free_item_num = int(offer[2])
-    #         free_item = products[offer[3]]
-    #
-    #         if priced_item == offer[3]:
-    #             qualifying_num += free_item_num
-    #
-    #         target = [x for x in basket if x.item.name == free_item.name and x.quantity > 0]
-    #
-    #         if target:
-    #             free_item = target[0]
-    #
-    #             if self.quantity >= qualifying_num and free_item.quantity > 0 and priced_item == free_item.item.name:
-    #
-    #                 if self.quantity == qualifying_num:
-    #                     factor = 1
-    #                     price = factor * free_item.item.price
-    #                 else:
-    #                     factor = (self.quantity // qualifying_num)
-    #                     price = factor * free_item.item.price
-    #
-    #             elif self.quantity >= qualifying_num and free_item.quantity > 0:
-    #                 items_to_remove = self.quantity // qualifying_num
-    #
-    #                 if free_item.item.multi:
-    #                     for offer in free_item.item.multi:
-    #                         items_on_offer = items_to_remove // offer[0]
-    #                         items_full_price = items_to_remove % offer[0]
-    #
-    #                         price += items_on_offer * offer[1]
-    #                         price += items_full_price * free_item.item.price
-    #
-    #                         if items_full_price:
-    #                             if (free_item.quantity // items_full_price) % offer[0] == 0:
-    #                                 price -= items_full_price * offer[1]
-    #                                 price += items_full_price * free_item.item.price
-    #                 else:
-    #                     price += items_to_remove * free_item.item.price
-    #
-    #         return price
+    def buy_x_get_x(self, basket: list):
+        if self.item.BxGx:
+            for offer in self.item.BxGx:
+                offer = list(offer)
+                qualifying_num = int(offer[0])
+                priced_item = offer[1]
+                free_item_num = int(offer[2])
+                free_item = products[offer[3]]
 
+                for target in basket:
+                    if target.item.name == free_item.name and target.quantity > 0:
+                        if target.item.name == self.item.name:
+                            qualifying_num += free_item_num
 
-    def pricing(self, basket: list) -> int:
+                        if self.quantity >= qualifying_num:
+                            factor = self.quantity // qualifying_num
+                            target.quantity -= factor
+                            if target.quantity < 0:
+                                target.quantity = 0
+
+    def group_discount(self, groups: list):
+        if self.item.group:
+            for i in range(self.quantity):
+                groups.append(self.item)
+            self.quantity = 0
+
+    def pricing(self) -> int:
         price = 0
         if self.item.multi:
             price += self.multi_pricing()
         else:
             price += self.item.price * self.quantity
-
-        # if self.item.BxGx:
-        #     price -= self.buy_x_get_x(basket)
 
         return price
 
@@ -111,7 +86,7 @@ products = {
     'H': Product('H', 10, multi=[(5, 45), (10, 80)]),
     'I': Product('I', 35),
     'J': Product('J', 60),
-    'K': Product('K', 80, multi=[(2, 150)]),
+    'K': Product('K', 70, multi=[(2, 120)]),
     'L': Product('L', 90),
     'M': Product('M', 15),
     'N': Product('N', 40, BxGx=['3N1M']),
@@ -119,14 +94,14 @@ products = {
     'P': Product('P', 50, multi=[(5, 200)]),
     'Q': Product('Q', 30, multi=[(3, 80)]),
     'R': Product('R', 50, BxGx=['3R1Q']),
-    'S': Product('S', 30),
-    'T': Product('T', 20),
+    'S': Product('S', 20, group=[(3, 45)]),
+    'T': Product('T', 20, group=[(3, 45)]),
     'U': Product('U', 40, BxGx=['3U1U']),
     'V': Product('V', 50, multi=[(2, 90), (3, 130)]),
     'W': Product('W', 20),
-    'X': Product('X', 90),
-    'Y': Product('Y', 10),
-    'Z': Product('Z', 50)
+    'X': Product('X', 17, group=[(3, 45)]),
+    'Y': Product('Y', 20, group=[(3, 45)]),
+    'Z': Product('Z', 21, group=[(3, 45)])
 }
 
 
@@ -142,31 +117,22 @@ def checkout(skus: str) -> int:
 
     basket = [Item(i, skus.count(i)) for i in products]
 
-    for x in basket:
-        if x.item.BxGx:
-            for offer in x.item.BxGx:
-                offer = list(offer)
-                qualifying_num = int(offer[0])
-                priced_item = offer[1]
-                free_item_num = int(offer[2])
-                free_item = products[offer[3]]
+    for item in basket:
+        item.buy_x_get_x(basket)
 
-                for y in basket:
-                    if y.item.name == free_item.name and y.quantity > 0:
-                        if y.item.name == x.item.name:
-                            qualifying_num += free_item_num
+    groups = []
+    group_pricing = 0
 
-                        if x.quantity >= qualifying_num:
-                            factor = x.quantity // qualifying_num
-                            y.quantity -= factor
-                            if y.quantity < 0:
-                                y.quantity = 0
+    for item in basket:
+        item.group_discount(groups)
 
-    prices = sum([i.pricing(basket) for i in basket])
+    print(groups)
+
+    prices = sum([i.pricing() for i in basket])
 
     return prices
 
 
-total = checkout('PPPPQRUVPQRUVPQRUVSU')
+total = checkout('RRRQQQXYZ')
 
 print(total)
