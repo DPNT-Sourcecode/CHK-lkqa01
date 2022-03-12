@@ -136,5 +136,5 @@ def checkout(skus: str) -> int:
 
     return total
 
-total = checkout('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ')
+total = checkout('CXYZYZC')
 print(total)
