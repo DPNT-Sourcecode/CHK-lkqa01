@@ -62,6 +62,11 @@ class Item:
                         price += items_on_offer * offer[1] * free_item_num
                         price += items_full_price * free_item.item.price * free_item_num
 
+                        if items_full_price:
+                            if (free_item.quantity // items_full_price) % offer[0] == 0:
+                                price -= items_full_price * offer[1]
+                                price += items_full_price * free_item.item.price
+
         return price
 
     def pricing(self, basket) -> int:
@@ -100,12 +105,9 @@ def checkout(skus: str) -> int:
 
     pricing = sum([i.pricing(basket) for i in basket])
 
-    # This line is added because there is a bug the last test and the answer should be 265.
-    if skus == 'ABCDEABCDE' or skus == 'ABCDEABCDE':
-        return 280
-
     return pricing
 #
 #
 # total = checkout('ABCDEABCDE')
 # print(total)
+
