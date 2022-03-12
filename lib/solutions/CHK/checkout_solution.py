@@ -2,6 +2,7 @@
 # noinspection PyUnusedLocal
 # skus = unicode string
 
+
 class Product:
     def __init__(self, name: str, price: int, multi: list = [], BxGx: list = [], group: list = []):
         self.name = name
@@ -38,7 +39,7 @@ class Item:
 
         return sum(price)
 
-    def buy_x_get_x(self, basket: list):
+    def buy_x_get_x(self, basket):
         if self.item.BxGx:
             for offer in self.item.BxGx:
                 offer = list(offer)
@@ -61,7 +62,7 @@ class Item:
     def group_discount(self, groups: list):
         if self.item.group:
             for i in range(self.quantity):
-                groups.append(self.item)
+                groups.append(self.item.name)
             self.quantity = 0
 
     def pricing(self) -> int:
@@ -70,7 +71,6 @@ class Item:
             price += self.multi_pricing()
         else:
             price += self.item.price * self.quantity
-
         return price
 
 
@@ -126,28 +126,28 @@ def checkout(skus: str) -> int:
     for item in basket:
         item.group_discount(groups)
 
-    groups = sorted(groups, key=lambda x: x.price, reverse=True)
+    groups = sorted([products[i] for i in groups], key=lambda x: x.price, reverse=True)
+
     groups = [i.name for i in groups]
 
-    # while groups:
-    #     for i in groups:
-    #         if len(single_group) < products[i].group[0][0]:
-    #             single_group.append(i)
-    #             groups.remove(i)
-    #
-    #         if len(single_group) == 3:
-    #             group_pricing += products[i].group[0][1]
-    #             single_group = []
-    #
-    # for i in single_group:
-    #     group_pricing += products[i].price
-    #
+    while groups:
+        for i in groups:
+            if len(single_group) < 3:
+                single_group.append(i)
+                groups.remove(i)
+
+            if len(single_group) == 3:
+                group_pricing += 45
+                single_group = []
+
+    for i in single_group:
+        group_pricing += products[i].price
+
+    print(group_pricing)
     prices = [i.pricing() for i in basket]
     total = sum(prices) + group_pricing
 
     return total
 
-
-total = checkout('KKKK')
-
-print(total)
+# total = checkout('ZZZXSTZSTXSTXYYYZZZZZZZSSSSSSDGSJAKDGHSAKJDHASJKDHSAJKDHKASJDHAKZZAZAIOJZIOJIOJZIOAOIJZA')
+# print(total)
