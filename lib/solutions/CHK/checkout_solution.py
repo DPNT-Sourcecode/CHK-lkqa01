@@ -142,14 +142,14 @@ def checkout(skus: str) -> int:
     # for i in single_group:
     #     group_pricing += products[i].price
     #
-    # prices = [i.pricing() for i in basket]
-    # total = sum(prices) + group_pricing
+    prices = [i.pricing() for i in basket]
+    total = sum(prices) + group_pricing
 
     return total
 
 
-# total = checkout('SSSZZZ')
-#
-# print(total)
+total = checkout('KKKK')
+
+print(total)
 
 
