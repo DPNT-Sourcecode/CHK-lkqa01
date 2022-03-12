@@ -131,7 +131,7 @@ def checkout(skus: str) -> int:
 
     while groups:
         for i in groups:
-            if i not in single_group and len(single_group) < products[i].group[0][0]:
+            if len(single_group) < products[i].group[0][0]:
                 single_group.append(i)
                 groups.remove(i)
 
@@ -147,7 +147,7 @@ def checkout(skus: str) -> int:
 
     return total
 
-#
-# total = checkout('AABCD')
-#
-# print(total)
+
+total = checkout('SSS')
+
+print(total)
