@@ -129,21 +129,21 @@ def checkout(skus: str) -> int:
     groups = sorted(groups, key=lambda x: x.price, reverse=True)
     groups = [i.name for i in groups]
 
-    while groups:
-        for i in groups:
-            if len(single_group) < products[i].group[0][0]:
-                single_group.append(i)
-                groups.remove(i)
-
-            if len(single_group) == 3:
-                group_pricing += products[i].group[0][1]
-                single_group = []
-
-    for i in single_group:
-        group_pricing += products[i].price
-
-    prices = [i.pricing() for i in basket]
-    total = sum(prices) + group_pricing
+    # while groups:
+    #     for i in groups:
+    #         if len(single_group) < products[i].group[0][0]:
+    #             single_group.append(i)
+    #             groups.remove(i)
+    #
+    #         if len(single_group) == 3:
+    #             group_pricing += products[i].group[0][1]
+    #             single_group = []
+    #
+    # for i in single_group:
+    #     group_pricing += products[i].price
+    #
+    # prices = [i.pricing() for i in basket]
+    # total = sum(prices) + group_pricing
 
     return total
 
@@ -151,4 +151,5 @@ def checkout(skus: str) -> int:
 # total = checkout('SSSZZZ')
 #
 # print(total)
+
 
