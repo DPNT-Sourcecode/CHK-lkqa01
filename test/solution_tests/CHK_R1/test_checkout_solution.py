@@ -20,7 +20,7 @@ def test_correct_checkout_with_discount_five():
     assert checkout('STZ') == 45
 
 def test_correct_checkout_with_discount_five():
-    assert checkout('ZSTZ') == 66
+    assert checkout('ZSTZ') == 65
 
 def test_correct_checkout_with_discount_six():
     assert checkout('SSS') == 45
@@ -31,8 +31,8 @@ def test_correct_checkout_with_discount_six():
 def test_wrong_items():
     assert checkout('AAArBBBCD') == -1
 
-
 def test_wrong_input():
     with pytest.raises(TypeError):
         checkout(10)
+
 
