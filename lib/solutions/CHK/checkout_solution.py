@@ -4,7 +4,7 @@
 
 
 class Product:
-    def __init__(self, name: str, price: int, multi: list=[], BxGx: list=[]):
+    def __init__(self, name: str, price: int, multi: list = [], BxGx: list = []):
         self.name = name
         self.price = price
         self.multi = multi
@@ -27,7 +27,8 @@ class Item:
         count = self.quantity
         offers = self.item.multi
 
-        for offer in sorted(offers, reverse=True): # Sorted to make sure we apply the highest offer first.
+        for offer in sorted(offers, reverse=True):
+            # sorted to make sure we apply the highest offer to the basket first.
             multiples = count // offer[0]
             if multiples >= 1:
                 price.append(multiples * offer[1])
@@ -37,7 +38,7 @@ class Item:
 
         return sum(price)
 
-    def buy_x_get_x(self, basket) -> int:
+    def buy_x_get_x(self, basket: list) -> int:
         price = 0
         offers = self.item.BxGx
 
@@ -56,7 +57,8 @@ class Item:
             if target:
                 free_item = target[0]
 
-                if self.quantity >= qualifying_num and free_item.quantity > 0:
+                if self.quantity >= qualifying_num and free_item.quantity > 0 and priced_item == free_item.item.name:
+
                     if self.quantity == qualifying_num:
                         factor = 1
                         price = factor * free_item.item.price
@@ -65,14 +67,15 @@ class Item:
                         price = factor * free_item.item.price
 
                 elif self.quantity >= qualifying_num and free_item.quantity > 0:
-                    item_to_remove = self.quantity // qualifying_num
+                    items_to_remove = self.quantity // qualifying_num
+
                     if free_item.item.multi:
                         for offer in free_item.item.multi:
-                            items_on_offer = item_to_remove // offer[0]
-                            items_full_price = item_to_remove % offer[0]
+                            items_on_offer = items_to_remove // offer[0]
+                            items_full_price = items_to_remove % offer[0]
 
-                            price += items_on_offer * offer[1] * free_item_num
-                            price += items_full_price * free_item.item.price * free_item_num
+                            price += items_on_offer * offer[1]
+                            price += items_full_price * free_item.item.price
 
                             if items_full_price:
                                 if (free_item.quantity // items_full_price) % offer[0] == 0:
@@ -81,7 +84,8 @@ class Item:
 
             return price
 
-    def pricing(self, basket) -> int:
+
+    def pricing(self, basket: list) -> int:
         price = 0
         if self.item.multi:
             price += self.multi_pricing()
@@ -99,14 +103,14 @@ products = {
     'B': Product('B', 30, multi=[(2, 45)]),
     'C': Product('C', 20),
     'D': Product('D', 15),
-    'E': Product('E', 40, BxGx=["2E1B"]), #f ormat: 2 of E gets 1 of B.
+    'E': Product('E', 40, BxGx=['2E1B']),
     'F': Product('F', 10, BxGx=['2F1F'])
 }
 
 
 def checkout(skus: str) -> int:
     """Supermarket checkout function. it accepts a string of products as input and returns the total amount taking into
-    account discounted items"""
+        account discounted items"""
     if not isinstance(skus, str):
         raise "Items should be a string"
 
@@ -116,11 +120,12 @@ def checkout(skus: str) -> int:
 
     basket = [Item(i, skus.count(i)) for i in products]
 
-    pricing = sum([i.pricing(basket) for i in basket])
+    prices = sum([i.pricing(basket) for i in basket])
 
-    return pricing
+    return prices
 
-total = checkout('BEBEEE')
+
+total = checkout('FFF')
 
 print(total)
 
