@@ -79,7 +79,7 @@ class Item:
                                     price -= items_full_price * offer[1]
                                     price += items_full_price * free_item.item.price
 
-        return price
+            return price
 
     def pricing(self, basket) -> int:
         price = 0
@@ -120,7 +120,8 @@ def checkout(skus: str) -> int:
 
     return pricing
 
-# total = checkout('AAAAAEEBAAABB')
-#
-# print(total)
+total = checkout('BEBEEE')
+
+print(total)
+
 
