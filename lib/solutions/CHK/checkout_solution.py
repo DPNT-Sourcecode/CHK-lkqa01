@@ -44,15 +44,27 @@ class Item:
         for offer in offers:
             offer = list(offer)
             qualifying_num = int(offer[0])
-            free_item = products[offer[3]]
+            priced_item = offer[1]
             free_item_num = int(offer[2])
+            free_item = products[offer[3]]
 
-        target = [x for x in basket if x.item.name == free_item.name and x.quantity > 0]
+            if priced_item == offer[3]:
+                qualifying_num += free_item_num
 
-        if target:
-            free_item = target[0]
+            target = [x for x in basket if x.item.name == free_item.name and x.quantity > 0]
+
+            if target:
+                free_item = target[0]
 
             if self.quantity >= qualifying_num and free_item.quantity > 0:
+                if self.quantity == qualifying_num:
+                    factor = 1
+                    price = factor * free_item.item.price
+                else:
+                    factor = (self.quantity // qualifying_num)
+                    price = factor * free_item.item.price
+
+            elif self.quantity >= qualifying_num and free_item.quantity > 0:
                 item_to_remove = self.quantity // qualifying_num
                 if free_item.item.multi:
                     for offer in free_item.item.multi:
@@ -87,7 +99,8 @@ products = {
     'B': Product('B', 30, multi=[(2, 45)]),
     'C': Product('C', 20),
     'D': Product('D', 15),
-    'E': Product('E', 40, BxGx=["2E1B"]) #f ormat: 2 of E gets 1 of B.
+    'E': Product('E', 40, BxGx=["2E1B"]), #f ormat: 2 of E gets 1 of B.
+    'F': Product('F', 10, BxGx=['2F1F'])
 }
 
 
@@ -106,4 +119,7 @@ def checkout(skus: str) -> int:
     pricing = sum([i.pricing(basket) for i in basket])
 
     return pricing
-# Z
+
+# total = checkout('AAAAAEEBAAABB')
+#
+# print(total)
