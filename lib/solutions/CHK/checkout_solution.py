@@ -115,7 +115,15 @@ products = {
     'O': Product('O', 10),
     'P': Product('P', 50, multi=[(5, 200)]),
     'Q': Product('Q', 30, multi=[(3, 80)]),
-    # 'R': Product
+    'R': Product('R', 50, BxGx=['3R1Q']),
+    'S': Product('S', 30),
+    'T': Product('T', 20),
+    'U': Product('U', 40, BxGx=['3U1U']),
+    'V': Product('V', 50, multi=[(2, 90), (3, 130)]),
+    'W': Product('W', 20),
+    'X': Product('X', 90),
+    'Y': Product('Y', 10),
+    'Z': Product('Z', 50)
 }
 
 
