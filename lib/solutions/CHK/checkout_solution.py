@@ -56,28 +56,28 @@ class Item:
             if target:
                 free_item = target[0]
 
-            if self.quantity >= qualifying_num and free_item.quantity > 0:
-                if self.quantity == qualifying_num:
-                    factor = 1
-                    price = factor * free_item.item.price
-                else:
-                    factor = (self.quantity // qualifying_num)
-                    price = factor * free_item.item.price
+                if self.quantity >= qualifying_num and free_item.quantity > 0:
+                    if self.quantity == qualifying_num:
+                        factor = 1
+                        price = factor * free_item.item.price
+                    else:
+                        factor = (self.quantity // qualifying_num)
+                        price = factor * free_item.item.price
 
-            elif self.quantity >= qualifying_num and free_item.quantity > 0:
-                item_to_remove = self.quantity // qualifying_num
-                if free_item.item.multi:
-                    for offer in free_item.item.multi:
-                        items_on_offer = item_to_remove // offer[0]
-                        items_full_price = item_to_remove % offer[0]
+                elif self.quantity >= qualifying_num and free_item.quantity > 0:
+                    item_to_remove = self.quantity // qualifying_num
+                    if free_item.item.multi:
+                        for offer in free_item.item.multi:
+                            items_on_offer = item_to_remove // offer[0]
+                            items_full_price = item_to_remove % offer[0]
 
-                        price += items_on_offer * offer[1] * free_item_num
-                        price += items_full_price * free_item.item.price * free_item_num
+                            price += items_on_offer * offer[1] * free_item_num
+                            price += items_full_price * free_item.item.price * free_item_num
 
-                        if items_full_price:
-                            if (free_item.quantity // items_full_price) % offer[0] == 0:
-                                price -= items_full_price * offer[1]
-                                price += items_full_price * free_item.item.price
+                            if items_full_price:
+                                if (free_item.quantity // items_full_price) % offer[0] == 0:
+                                    price -= items_full_price * offer[1]
+                                    price += items_full_price * free_item.item.price
 
         return price
 
@@ -123,3 +123,4 @@ def checkout(skus: str) -> int:
 # total = checkout('AAAAAEEBAAABB')
 #
 # print(total)
+
