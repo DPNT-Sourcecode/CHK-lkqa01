@@ -135,7 +135,7 @@ def checkout(skus: str) -> int:
                 single_group.append(i)
                 groups.remove(i)
 
-            if len(single_group) == products[i].group[0][0]:
+            if len(single_group) == 3:
                 group_pricing += products[i].group[0][1]
                 single_group = []
 
@@ -148,7 +148,7 @@ def checkout(skus: str) -> int:
     return total
 
 
-# total = checkout('EEEEBB')
+# total = checkout('SSSZZZ')
 #
 # print(total)
 
